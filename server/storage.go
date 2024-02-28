@@ -8,7 +8,8 @@ import (
 )
 
 func NewPostgresStore() (*PostgresStore, error) {
-	connStr := "user=postgres dbname=postgres password=rohan sslmode=disable"
+	// connStr := "user=postgres dbname=postgres password=rohan sslmode=disable"
+	connStr := "host=go_db user=postgres password=rohan dbname=postgres sslmode=disable"
 	db, err := sqlx.Connect("postgres", connStr)
 	if err != nil {
 		return nil, err
@@ -72,19 +73,3 @@ func (s *PostgresStore) AddDog(dog *Dog) error {
 
 	return nil
 }
-
-// if err != nil {
-// 	return nil, err
-// }
-
-// dogs := []*Dog{}
-// for rows.Next() {
-// 	dog, err := scanIntoDogs(rows)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if dog.Name == name {
-// 		dogs = append(dogs, dog)
-// 	}
-// }
-// return dogs, nil

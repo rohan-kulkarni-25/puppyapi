@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
-import { logEvent } from 'firebase/analytics';
+
 
 function App() {
   const [imageData, setImageData] = useState<string | undefined>();
@@ -10,7 +10,7 @@ function App() {
 
   const getDog = async () => {
     try {
-      const response = await axios.post<string>(`http://localhost:3000/dogs/${value}`);
+      const response = await axios.post<string>(`http://localhost:8000/dogs/${value}`);
       setImageData(response.data);
       console.log(response.data);
 
