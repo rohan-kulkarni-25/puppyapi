@@ -1,16 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import axios from 'axios';
+import { logEvent } from 'firebase/analytics';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [imageData, setImageData] = useState<string | undefined>();
+
+  const [value, setValue] = useState<string>()
+
+  const getDog = async () => {
+    try {
+      const response = await axios.post<string>(`http://localhost:3000/dogs/${value}`);
+      setImageData(response.data);
+      console.log(response.data);
+
+    } catch (error) {
+      console.error('Error fetching image:', error);
+    }
+  };
+
+  useEffect(() => {
+    getDog();
+  }, [value]);
 
   return (
     <>
-      <h1>VITE WORKING WELL</h1>
+      <div style={{ marginBottom: 20, gap: 10 }}>
+        <button onClick={() => setValue("affenpinscher")}>affenpinscher</button>
+        <button onClick={() => setValue("dachshund")}>dachshund</button>
+        <button onClick={() => setValue("pitbull")}>pitbull</button>
+        <button onClick={() => setValue("labrador")}>labrador</button>
+        <button onClick={() => setValue("african")}>african</button>
+      </div>
+      <div>
+        {imageData && <img src={`data:image/jpeg;base64,${imageData}`} alt="Dog" />}
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
