@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -9,14 +10,15 @@ import (
 
 func NewPostgresStore() (*PostgresStore, error) {
 	// connStr := "user=postgres dbname=postgres password=rohan sslmode=disable"
-	connStr := "host=go_db user=postgres password=rohan dbname=postgres sslmode=disable"
+	connStr := "user=postgres password=rohan dbname=postgres host=go_db sslmode=disable "
 	db, err := sqlx.Connect("postgres", connStr)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := db.Ping(); err != nil {
-		return nil, err
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("Error pinging database: %v", err)
 	}
 
 	return &PostgresStore{

@@ -10,7 +10,7 @@ function App() {
 
   const getDog = async () => {
     try {
-      const response = await axios.post<string>(`http://localhost:8000/dogs/${value}`);
+      const response = await axios.post<string>(`http://localhost:8080/dogs/${value}`);
       setImageData(response.data);
       console.log(response.data);
 

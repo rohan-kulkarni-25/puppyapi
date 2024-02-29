@@ -41,6 +41,6 @@ func main() {
 		seedDogs(store)
 	}
 
-	server := NEWAPIServer("8080", store)
+	server := NEWAPIServer(":8080", store)
 	server.Run()
 }

@@ -1,0 +1,20 @@
+{
+  "name": "puppyapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install:client": "cd client && npm install",
+    "start:client": "cd client && npm install && npm run dev",
+    "start:server": "cd server && docker-compose up -d",
+    "start:devserver": "cd server && make run",
+    "start:db": "cd server && docker run --name puppyapi -e POSTGRES_PASSWORD=rohan POSTGRES_USER=postgres POSTGRES_DB=postgres-p 5432:5432 -d postgres",
+    "start:all": "npm-run-all --parallel start:server install:client start:client",
+    "start:dev": "npm-run-all start:db start:devserver start:client "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

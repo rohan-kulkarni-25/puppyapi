@@ -3,14 +3,19 @@ version: "3.7"
 services:
   go-app:
     container_name: go-app
-    # image: francescoxx/go-app:1.0.1
     build: .
     environment:
-      DATABASE_URL: "host=go_db user=postgres password=rohan dbname=postgres sslmode=disable"
+      DATABASE_URL: "user=postgres password=rohan dbname=postgres host:go_db sslmode=disable"
     ports:
       - "8080:8080"
     depends_on:
       - go_db
+    restart: always
+    volumes:
+      - ./ASSETS:/app/ASSETS
+
+    networks:
+      - fullstack
   go_db:
     container_name: go_db
     image: postgres:12
@@ -22,6 +27,13 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./dbshell:/docker-entrypoint-initdb.d/
+    networks:
+      - fullstack
 
 volumes:
   pgdata: {}
+
+networks:
+  fullstack:
+    driver: bridge

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 )
@@ -19,6 +20,7 @@ func (s *APIServer) handleGetDogs(w http.ResponseWriter, r *http.Request) error 
 		return err
 	}
 	fmt.Println(dogs)
+	log.Println(dogs.Path)
 	fileBytes, err := os.ReadFile(dogs.Path)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -31,16 +33,11 @@ func (s *APIServer) handleGetDogs(w http.ResponseWriter, r *http.Request) error 
 
 	// Encode to base64
 	base64Encoded := base64.StdEncoding.EncodeToString(bytesData)
-	// response := DogResponse{
-	// 	Param: dogs.Name,
-	// 	Data:  []byte(base64Encoded),
-	// }
 	w.Header().Add("Content-Type", "application/octet-stream")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte(base64Encoded))
 	return err
-	// return WriteJSON(w, http.StatusAccepted, response)
 }
 
 // DOG BREEDS
